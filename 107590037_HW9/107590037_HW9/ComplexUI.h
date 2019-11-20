@@ -5,14 +5,10 @@
 class ComplexUI
 {
 public:
-    //UI起使畫面
+    //UI起始畫面
     void Start();
 private:
     //輸出計算結果
     void ShowResult(const Complex& result);
-    //複數乘法運算
-    const Complex Multiply(const Complex& firstNum, const Complex& secondNum);
-    //虛數i
-    const Complex _I = Complex(0, 1);
 };
 #endif

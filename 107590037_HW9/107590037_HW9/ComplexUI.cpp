@@ -18,7 +18,7 @@ void ComplexUI::Start()
     cin >> firstNumber;
     cout << "Input complex number 2: ";
     cin >> secondNumber;
-    Complex result = Multiply(firstNumber, secondNumber);
+    Complex result = firstNumber * secondNumber;
     ShowResult(result);
 }
 
@@ -34,18 +34,4 @@ void ComplexUI::ShowResult(const Complex& result)
     cout << "Multi:"
          << " (" << result << ")"
          << endl;
-}
-
-/*
-	函式功能: 乘法複數計算
-
-	參數: 兩個複數
-
-	回傳值: 複數計算結果
-*/
-const Complex ComplexUI::Multiply(const Complex& firstNum, const Complex& secondNum)
-{
-    double real = firstNum.GetReal() * secondNum.GetReal() - firstNum.GetImaginary() * secondNum.GetImaginary();
-    double imaginary = firstNum.GetReal() * secondNum.GetImaginary() + firstNum.GetImaginary() * secondNum.GetReal();
-    return real + imaginary * _I;
 }

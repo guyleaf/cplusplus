@@ -26,6 +26,8 @@ public:
     double GetReal() const;
     //取得虛數
     double GetImaginary() const;
+    //operator overload * => Complex * Complex 複數乘法
+    const Complex operator*(const Complex& secondNum) const;
 private:
     //實數
     double _real;

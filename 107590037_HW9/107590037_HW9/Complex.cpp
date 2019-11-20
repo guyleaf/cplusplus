@@ -42,6 +42,21 @@ Complex::Complex(double real, double imaginary)
 }
 
 /*
+	ㄧΑ: operator overload 猭 Complex * Complex
+
+	把计: 猭も娩狡计
+
+	肚: 狡计ン
+*/
+const Complex Complex::operator*(const Complex& secondNum) const
+{
+    const Complex I = Complex(0, 1);
+    double real = _real * secondNum._real - _imaginary * secondNum._imaginary;
+    double imaginary = _real * secondNum._imaginary + _imaginary * secondNum._real;
+    return real + imaginary * I;
+}
+
+/*
 	ㄧΑ: operator overload 猭 double * Complex
 
 	把计: scalar => double篈, complexNum => 狡计
