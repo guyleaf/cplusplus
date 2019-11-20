@@ -37,11 +37,11 @@ void ComplexUI::ShowResult(const Complex& result)
 }
 
 /*
-	函式功能: 輸出結果
+	函式功能: 乘法複數計算
 
-	參數: 複數計算結果
+	參數: 兩個複數
 
-	回傳值: 無
+	回傳值: 複數計算結果
 */
 const Complex ComplexUI::Multiply(const Complex& firstNum, const Complex& secondNum)
 {
