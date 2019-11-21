@@ -116,15 +116,19 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Cloth.cpp" />
+    <ClCompile Include="Customer.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Mall.cpp" />
     <ClCompile Include="MallUI.cpp" />
+    <ClCompile Include="Order.cpp" />
     <ClCompile Include="Shop.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Cloth.h" />
+    <ClInclude Include="Customer.h" />
     <ClInclude Include="Mall.h" />
     <ClInclude Include="MallUI.h" />
+    <ClInclude Include="Order.h" />
     <ClInclude Include="Shop.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

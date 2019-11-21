@@ -19,6 +19,8 @@ public:
     const vector<Cloth*>* GetClothes() const;
     //取得所有商店資料
     const vector<Shop*>* GetShops() const;
+
+    ~Mall();
 private:
     //載入外部商店資料
     void LoadShopsData(string fileName);

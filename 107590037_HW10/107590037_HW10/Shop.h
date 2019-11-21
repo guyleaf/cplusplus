@@ -22,6 +22,7 @@ public:
     const vector<Cloth*>* GetClothes() const;
     //尋找衣服
     Cloth* FindCloth(int id) const;
+    ~Shop();
 private:
     //衣服資料清單
     vector<Cloth*> _clothes;

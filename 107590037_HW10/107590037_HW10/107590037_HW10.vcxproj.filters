@@ -30,6 +30,12 @@
     <ClCompile Include="Shop.cpp">
       <Filter>來源檔案</Filter>
     </ClCompile>
+    <ClCompile Include="Customer.cpp">
+      <Filter>來源檔案</Filter>
+    </ClCompile>
+    <ClCompile Include="Order.cpp">
+      <Filter>來源檔案</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Cloth.h">
@@ -42,6 +48,12 @@
       <Filter>標頭檔</Filter>
     </ClInclude>
     <ClInclude Include="Shop.h">
+      <Filter>標頭檔</Filter>
+    </ClInclude>
+    <ClInclude Include="Customer.h">
+      <Filter>標頭檔</Filter>
+    </ClInclude>
+    <ClInclude Include="Order.h">
       <Filter>標頭檔</Filter>
     </ClInclude>
   </ItemGroup>

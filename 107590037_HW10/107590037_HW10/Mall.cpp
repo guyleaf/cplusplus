@@ -239,3 +239,9 @@ bool Mall::IsClothData(fstream& file, streampos& lastReadPosition) const
 
     return false;
 }
+
+Mall::~Mall()
+{
+    for (size_t i = 0; i < _shops.size(); i++)
+        delete _shops[i];
+}

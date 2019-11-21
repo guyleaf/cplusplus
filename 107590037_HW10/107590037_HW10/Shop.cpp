@@ -72,3 +72,9 @@ Cloth* Shop::FindCloth(int id) const
     return NULL;
 }
 
+Shop::~Shop()
+{
+    for (int i = 0; i < _numberOfClothes; i++)
+        delete _clothes[i];
+}
+
