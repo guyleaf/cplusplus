@@ -29,42 +29,55 @@ void Mall::CreateNewCloth(string name, string description, double price)
     shop->createNewCloth(name, description, price);
 }
 
-/*
-	函式功能: 選擇商店
+void Mall::MakeNewOrder()
+{
+    Shop* shop = _shops[_shopIndex];
+    _customers[_customerIndex]->MakeNewOrder(shop);
+}
 
-	參數: 商店編號
+void Mall::AddOrderToCloth(int id)
+{
+    Shop* shop = _shops[_shopIndex];
+    Cloth* cloth = shop->FindCloth(id);
+    Customer* customer = _customers[_customerIndex];
+    customer->AddClothToOrder(cloth);
+}
+/*
+	函式功能: 選擇客人與商店
+
+	參數: 客人編號, 商店編號
 
 	回傳值: 無
 */
-void Mall::SelectShop(int shopIndex)
+void Mall::SelectCustomerAndShop(int customerIndex, int shopIndex)
 {
     _shopIndex = shopIndex;
+    _customerIndex = customerIndex;
 }
 
-/*
-	函式功能: 取得所有衣服資料
-
-	參數: 無
-
-	回傳值: 所有衣服資料的vector位址
-*/
-const vector<Cloth*>* Mall::GetClothes() const
+bool Mall::IsPointEnough() const
 {
-    return _shops[_shopIndex]->GetClothes();
+    Customer* customer = _customers[_customerIndex];
+    return customer->IsPointEnough();
 }
 
-/*
-	函式功能: 取得所有商店
-
-	參數: 無
-
-	回傳值: 所有商店資料的vector位址
-*/
-const vector<Shop*>* Mall::GetShops() const
+void Mall::ReducePointFromOrder()
 {
-    return &_shops;
+    Customer* customer = _customers[_customerIndex];
+    customer->ReducePointFromOrder();
 }
 
+void Mall::CancelOrder()
+{
+    Customer* customer = _customers[_customerIndex];
+    customer->CancelOrder();
+}
+
+const Order* Mall::GetCurrentOrder() const
+{
+    Customer* customer = _customers[_customerIndex];
+    return customer->GetCurrentOrder();
+}
 /*
 	函式功能: 載入外部店家資料
 

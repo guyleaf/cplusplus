@@ -1,9 +1,11 @@
 #ifndef MALL_H
 #define MALL_H
 #include "Shop.h"
+#include "Customer.h"
 #include <vector>
 #include <string>
 #include <fstream>
+
 using namespace std;
 
 class Mall
@@ -13,12 +15,20 @@ public:
     Mall();
     //建立衣服資料
     void CreateNewCloth(string name, string description, double price);
-    //選擇商店
-    void SelectShop(int shopIndex);
-    //取得該商店所有衣服資料
-    const vector<Cloth*>* GetClothes() const;
-    //取得所有商店資料
-    const vector<Shop*>* GetShops() const;
+
+    void MakeNewOrder();
+
+    void AddOrderToCloth(int id);
+
+    void SelectCustomerAndShop(int customerIndex, int shopIndex);
+
+    bool IsPointEnough() const;
+
+    void ReducePointFromOrder();
+
+    void CancelOrder();
+
+    const Order* GetCurrentOrder() const;
 
     ~Mall();
 private:
@@ -40,7 +50,9 @@ private:
     bool IsClothData(fstream& file, streampos& lastReadPosition) const;
     //選定的商店編號
     int _shopIndex;
+    int _customerIndex;
     //商店清單
     vector<Shop*> _shops;
+    vector<Customer*> _customers;
 };
 #endif
