@@ -14,10 +14,7 @@ const Shop* Order::GetShop() const
 
 void Order::AddCloth(Cloth* clothToAdd)
 {
-    string name = clothToAdd->GetName();
-    string description = clothToAdd->GetDescription();
-    double price = clothToAdd->GetPrice();
-    _shop->createNewCloth(name, description, price);
+    _orderedClothes.push_back(clothToAdd);
 }
 
 double Order::GetTotalPrice() const

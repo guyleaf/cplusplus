@@ -24,12 +24,16 @@ public:
 
     bool IsPointEnough() const;
 
+    double GetCash() const;
+
     void ReducePointFromOrder();
 
     void CancelOrder();
 
+    const vector<Shop*>* GetShops() const;
+    const vector<Cloth*>* GetClothes() const;
+    const vector<Customer*>* GetCustomers() const;
     const Order* GetCurrentOrder() const;
-
     ~Mall();
 private:
     //載入外部商店資料

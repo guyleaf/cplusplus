@@ -21,6 +21,7 @@ double Customer::GetCash() const
 
 void Customer::MakeNewOrder(Shop* shop)
 {
+    delete _order;
     _order = new Order(shop);
 }
 
@@ -42,6 +43,8 @@ bool Customer::IsPointEnough() const
 void Customer::ReducePointFromOrder()
 {
     _point -= _order->GetTotalPrice();
+    delete _order;
+    _order = NULL;
 }
 
 void Customer::CancelOrder()
@@ -54,6 +57,7 @@ const Order* Customer::GetCurrentOrder() const
 {
     return _order;
 }
+
 
 Customer::~Customer()
 {

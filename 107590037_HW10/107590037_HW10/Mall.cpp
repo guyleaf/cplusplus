@@ -13,6 +13,9 @@ using namespace std;
 Mall::Mall()
 {
     LoadShopsData("Cloth.txt");
+    _customers.push_back(new Customer("Amber"));
+    _customers.push_back(new Customer("Tim"));
+    _customers.push_back(new Customer("Marry"));
 }
 
 
@@ -42,6 +45,8 @@ void Mall::AddOrderToCloth(int id)
     Customer* customer = _customers[_customerIndex];
     customer->AddClothToOrder(cloth);
 }
+
+
 /*
 	函式功能: 選擇客人與商店
 
@@ -61,6 +66,12 @@ bool Mall::IsPointEnough() const
     return customer->IsPointEnough();
 }
 
+double Mall::GetCash() const
+{
+    Customer* customer = _customers[_customerIndex];
+    return customer->GetCash();
+}
+
 void Mall::ReducePointFromOrder()
 {
     Customer* customer = _customers[_customerIndex];
@@ -78,6 +89,23 @@ const Order* Mall::GetCurrentOrder() const
     Customer* customer = _customers[_customerIndex];
     return customer->GetCurrentOrder();
 }
+
+const vector<Shop*>* Mall::GetShops() const
+{
+    return &_shops;
+}
+
+const vector<Cloth*>* Mall::GetClothes() const
+{
+    Shop* shop = _shops[_shopIndex];
+    return shop->GetClothes();
+}
+
+const vector<Customer*>* Mall::GetCustomers() const
+{
+    return &_customers;
+}
+
 /*
 	函式功能: 載入外部店家資料
 
@@ -255,6 +283,9 @@ bool Mall::IsClothData(fstream& file, streampos& lastReadPosition) const
 
 Mall::~Mall()
 {
+    for (size_t i = 0; i < _customers.size(); i++)
+        delete _customers[i];
+
     for (size_t i = 0; i < _shops.size(); i++)
         delete _shops[i];
 }

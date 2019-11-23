@@ -15,18 +15,37 @@ public:
     //顯示UI畫面
     void Start();
 private:
+    //客人選單
+    void CustomersMenu(string& customerName);
+    void ShowCustomersMenu() const;
+
     //商場選單
     void MallsMenu(string& shopName);
-    void ShowMallsMenu();
+    void ShowMallsMenu() const;
 
     //商店選單
-    void ShopMenu(string& shopName);
-    void ShowShopMenu(const string shopName);
+    void ShopMenu(string& shopName, string& customerName);
+    void ShowShopMenu(const string shopName, const string customerName) const;
 
-    //取得商店編號
-    int GetShopIndex(const string shopName) const;
+    void SelectCustomerAndShop(const string customerName, const string shopName) const;
     //選擇商店
-    void SelectShop(int command, string& shopName);
+    string GetCustomerName(int command) const;
+    //選擇商店
+    string GetShopName(int command) const;
+
+    void MakeNewOrder();
+
+    void AddClothesToOrder();
+
+    int GetClothIndex();
+
+    int GetClothCount();
+
+    void CheckOutOrder();
+
+    void CheckLeftPoint();
+
+    void CheckPastOrders();
     //新增衣服
     void AddNewClothes();
     //取得衣服名稱
@@ -46,10 +65,16 @@ private:
     void DisplayAllClothes() const;
     //離開trigger
     bool _exit;
+
+    //客人順序
+    vector<string> _customersOrder;
     //商店順序
     vector<string> _shopsOrder;
+    //客人數量
+    size_t _numberOfCustomers;
     //商店數量
     size_t _numberOfShops;
+
     //商場Model
     Mall* _mall;
 };
