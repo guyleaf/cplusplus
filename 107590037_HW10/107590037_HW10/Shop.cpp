@@ -32,7 +32,7 @@ string Shop::GetName() const
 
 	回傳值: 無
 */
-void Shop::createNewCloth(string name, string description, double price)
+void Shop::CreateNewCloth(string name, string description, double price)
 {
     //加到衣服資料清單
     _clothes.push_back(new Cloth(name, description, price, ++_numberOfClothes));

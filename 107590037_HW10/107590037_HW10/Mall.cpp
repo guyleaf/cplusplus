@@ -29,16 +29,30 @@ Mall::Mall()
 void Mall::CreateNewCloth(string name, string description, double price)
 {
     Shop* shop = _shops[_shopIndex];
-    shop->createNewCloth(name, description, price);
+    shop->CreateNewCloth(name, description, price);
 }
 
+/*
+	函式功能: 建立新訂單
+
+	參數: 無
+
+	回傳值: 無
+*/
 void Mall::MakeNewOrder()
 {
     Shop* shop = _shops[_shopIndex];
     _customers[_customerIndex]->MakeNewOrder(shop);
 }
 
-void Mall::AddOrderToCloth(int id)
+/*
+	函式功能: 加入衣服至訂單中
+
+	參數: 衣服ID
+
+	回傳值: 無
+*/
+void Mall::AddClothToOrder(int id)
 {
     Shop* shop = _shops[_shopIndex];
     Cloth* cloth = shop->FindCloth(id);
@@ -60,47 +74,103 @@ void Mall::SelectCustomerAndShop(size_t customerIndex, size_t shopIndex)
     _customerIndex = customerIndex;
 }
 
+/*
+	函式功能: 檢查點數是否足夠
+
+	參數: 無
+
+	回傳值: True/False
+*/
 bool Mall::IsPointEnough() const
 {
     Customer* customer = _customers[_customerIndex];
     return customer->IsPointEnough();
 }
 
+/*
+	函式功能: 取得點數
+
+	參數: 無
+
+	回傳值: 點數
+*/
 double Mall::GetCash() const
 {
     Customer* customer = _customers[_customerIndex];
     return customer->GetCash();
 }
 
+/*
+	函式功能: 訂單扣除點數
+
+	參數: 無
+
+	回傳值: 無
+*/
 void Mall::ReducePointFromOrder()
 {
     Customer* customer = _customers[_customerIndex];
     customer->ReducePointFromOrder();
 }
 
+/*
+	函式功能: 取消訂單
+
+	參數: 無
+
+	回傳值: 無
+*/
 void Mall::CancelOrder()
 {
     Customer* customer = _customers[_customerIndex];
     customer->CancelOrder();
 }
 
+/*
+	函式功能: 取得目前客人訂單
+
+	參數: 無
+
+	回傳值: 目前客人訂單
+*/
 const Order* Mall::GetCurrentOrder() const
 {
     Customer* customer = _customers[_customerIndex];
     return customer->GetCurrentOrder();
 }
 
+/*
+	函式功能: 取得所有商店資料
+
+	參數: 無
+
+	回傳值: 所有商店資料
+*/
 const vector<Shop*>* Mall::GetShops() const
 {
     return &_shops;
 }
 
+/*
+	函式功能: 取得該商店所有衣服資料
+
+	參數: 無
+
+	回傳值: 所有衣服資料
+*/
 const vector<Cloth*>* Mall::GetClothes() const
 {
     Shop* shop = _shops[_shopIndex];
     return shop->GetClothes();
 }
 
+/*
+	函式功能: 取得所有客人資料
+
+	參數: 無
+
+	回傳值: 所有客人資料
+*/
 const vector<Customer*>* Mall::GetCustomers() const
 {
     return &_customers;
@@ -115,14 +185,11 @@ const vector<Customer*>* Mall::GetCustomers() const
 */
 void Mall::LoadShopsData(string fileName)
 {
-    //檔案資料流
     fstream file;
     //商店檔頭規則
     regex rule("^Shop .+:$");
-    //打開檔案
     file.open(fileName, ios::in);
 
-    //找不到檔案則退出
     if (!file)
         return;
 
@@ -133,24 +200,20 @@ void Mall::LoadShopsData(string fileName)
 
     while (!file.eof())
     {
-        //讀取商店檔頭
         shopHead = ReadShopHead(file);
 
         //檢查是否符合規則
         if (!regex_match(shopHead, rule))
             break;
 
-        //取得檔頭中的商店名稱
         shopName = GetShopName(shopHead);
         //建立商店
         shop = new Shop(shopName);
         //加入至商店清單
         _shops.push_back(shop);
-        //載入商店衣服資料
         LoadClothesData(file, shop);
     }
 
-    //關閉檔案
     file.close();
 }
 
@@ -163,24 +226,21 @@ void Mall::LoadShopsData(string fileName)
 */
 void Mall::LoadClothesData(fstream& file, Shop* shop)
 {
-    //紀錄最後讀檔位置
+    //記錄最後讀檔位置
     streampos lastReadPosition = file.tellg();
-    //衣服名稱, 衣服描述, 衣服價格
+    //衣服名稱, 衣服描述
     string name, description;
+    //衣服價格
     double price;
 
     while (IsClothData(file, lastReadPosition))
     {
-        //讀取衣服名稱
         name = ReadClothName(file);
-        //讀取衣服描述
         description = ReadClothDescription(file);
-        //讀取衣服價格
         price = ReadClothPrice(file);
-        //紀錄最後讀檔位置
+        //記錄最後讀檔位置
         lastReadPosition = file.tellg();
-        //建立衣服資料
-        shop->createNewCloth(name, description, price);
+        shop->CreateNewCloth(name, description, price);
     }
 }
 

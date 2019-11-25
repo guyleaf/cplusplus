@@ -3,7 +3,7 @@
 
 	程式功能: 商場管理系統
 
-	作業編號: HW8
+	作業編號: HW10
 */
 #include "Mall.h"
 #include "MallUI.h"
