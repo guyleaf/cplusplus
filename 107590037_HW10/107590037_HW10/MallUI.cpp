@@ -45,46 +45,59 @@ void MallUI::Start()
         if (_exit)
             break;
 
-        //商場選單
         MallsMenu(shopName);
         SelectCustomerAndShop(customerName, shopName);
-        //商店選單
         ShopMenu(shopName, customerName);
     }
 }
 
 /*
-	函式功能: 顯示Malls's Menu
+	函式功能: 取得客人名稱
+
+	參數: index
+
+	回傳值: 客人名稱
+*/
+string MallUI::GetCustomerName(int index) const
+{
+    return _customersOrder[index - 1];
+}
+
+/*
+	函式功能: 取得商店名稱
+
+	參數: index
+
+	回傳值: 商店名稱
+*/
+string MallUI::GetShopName(int index) const
+{
+    return _shopsOrder[index - 1];
+}
+
+/*
+	函式功能: 顯示客人選單UI
 
 	參數: 無
 
 	回傳值: 無
 */
-void MallUI::ShowMallsMenu() const
-{
-    //列出店家清單
-    for (size_t i = 0; i < _numberOfShops; i++)
-        cout << i + 1 << "." << _shopsOrder[i] << endl;
-}
-
-string MallUI::GetCustomerName(int command) const
-{
-    return _customersOrder[command - 1];
-}
-
-string MallUI::GetShopName(int command) const
-{
-    return _shopsOrder[command - 1];
-}
-
 void MallUI::ShowCustomersMenu() const
 {
+    //列出客人選單
     for (size_t i = 0; i < _numberOfCustomers; i++)
         cout << i + 1 << "." << _customersOrder[i] << endl;
 
     cout << _numberOfCustomers + 1 << "." << "離開" << endl;
 }
 
+/*
+	函式功能: 客人選單
+
+	參數: 選定的客人名稱
+
+	回傳值: 無
+*/
 void MallUI::CustomersMenu(string& customerName)
 {
     //暫存輸入資料
@@ -98,9 +111,10 @@ void MallUI::CustomersMenu(string& customerName)
     while (true)
     {
         cout << "select customer: ";
+        //取得選單輸入指令
         command = GetCommand();
 
-        //檢查是否符合選擇商店規則
+        //檢查是否符合選擇客人規則
         if (regex_match(command, rule))
         {
             customerName = GetCustomerName(stoi(command));
@@ -115,6 +129,21 @@ void MallUI::CustomersMenu(string& customerName)
         cout << "請選擇畫面上的客人" << endl;
     }
 }
+
+/*
+	函式功能: 顯示商場選單UI
+
+	參數: 無
+
+	回傳值: 無
+*/
+void MallUI::ShowMallsMenu() const
+{
+    //列出店家清單
+    for (size_t i = 0; i < _numberOfShops; i++)
+        cout << i + 1 << "." << _shopsOrder[i] << endl;
+}
+
 /*
 	函式功能: 商場選單
 
@@ -135,9 +164,10 @@ void MallUI::MallsMenu(string& shopName)
     while (true)
     {
         cout << "Select Shop: ";
+        //取得選單輸入指令
         command = GetCommand();
 
-        //檢查是否符合選擇商店規則
+        //檢查是否符合選擇商場規則
         if (regex_match(command, rule))
         {
             shopName = GetShopName(stoi(command));
@@ -149,9 +179,9 @@ void MallUI::MallsMenu(string& shopName)
 }
 
 /*
-	函式功能: 顯示商店選單
+	函式功能: 顯示商店選單UI
 
-	參數: 選定的商店名稱
+	參數: shopName => 選定的商店名稱, customerName => 選定的客人名稱
 
 	回傳值: 無
 */
@@ -172,22 +202,24 @@ void MallUI::ShowShopMenu(const string shopName, const string customerName) cons
 /*
 	函式功能: 商店選單
 
-	參數: 選定的商店名稱
+	參數: shopName => 選定的商店名稱, customerName => 選定的客人名稱
 
 	回傳值: 無
 */
 void MallUI::ShopMenu(string& shopName, string& customerName)
 {
-    regex rule("^[1-8]$");
     //儲存輸入指令代號
     string command;
+    //選擇商店規則
+    regex rule("^[1-8]$");
     ShowShopMenu(shopName, customerName);
 
     while (true)
     {
-        //取得商店選單輸入指令
+        //取得選單輸入指令
         command = GetCommand();
 
+        //檢查是否符合選擇商店規則
         if (regex_match(command, rule))
         {
             if (command == "1") //功能一 新增衣服
@@ -280,7 +312,6 @@ double MallUI::GetClothPrice()
         //符合規則且價格不為零
         if (IsNumber(data) && IsPositive(data) && stod(data) != 0)
         {
-            //字串轉doeble
             price = stod(data);
             break;
         }
@@ -297,6 +328,7 @@ double MallUI::GetClothPrice()
 
     return price;
 }
+
 /*
 	函式功能: 新增衣服
 
@@ -306,11 +338,9 @@ double MallUI::GetClothPrice()
 */
 void MallUI::AddNewClothes()
 {
-    //暫存商品價格
     string name = GetClothName();
     string description = GetClothDescription();
     double price = GetClothPrice();
-    //建立衣服資料
     _mall->CreateNewCloth(name, description, price);
 }
 
@@ -339,14 +369,29 @@ void MallUI::DisplayAllClothes() const
     cout << endl;
 }
 
+/*
+	函式功能: 建立新訂單
+
+	參數: 無
+
+	回傳值: 無
+*/
 void MallUI::MakeNewOrder()
 {
     _mall->MakeNewOrder();
     cout << "成功建立新訂單!!!" << endl << endl;
 }
 
+/*
+	函式功能: 購買衣服
+
+	參數: 無
+
+	回傳值: 無
+*/
 void MallUI::AddClothesToOrder()
 {
+    //訂單不存在，則提醒並跳出
     if (_mall->GetCurrentOrder() == NULL)
     {
         cout << "請建立訂單，才能購買衣服!" << endl << endl;
@@ -357,20 +402,30 @@ void MallUI::AddClothesToOrder()
 
     while (true)
     {
-        int clothIndex = GetClothIndex();
+        int clothIndex = GetClothId();
 
+        //輸入-1時跳出
         if (clothIndex == -1)
             break;
 
         int clothCount = GetClothCount();
 
+        //依衣服件數而定
         for (int i = 0; i < clothCount; i++)
-            _mall->AddOrderToCloth(clothIndex);
+            _mall->AddClothToOrder(clothIndex);
     }
 }
 
+/*
+	函式功能: 訂單結帳
+
+	參數: 無
+
+	回傳值: 無
+*/
 void MallUI::CheckOutOrder()
 {
+    //訂單不存在，則提醒並跳出
     if (_mall->GetCurrentOrder() == NULL)
     {
         cout << "請先建立新訂單，才能夠結束訂單 !" << endl << endl;
@@ -388,17 +443,38 @@ void MallUI::CheckOutOrder()
     _mall->CancelOrder();
 }
 
+/*
+	函式功能: 查詢剩餘點數
+
+	參數: 無
+
+	回傳值: 無
+*/
 void MallUI::CheckLeftPoint()
 {
     cout << "您剩餘的點數剩下: " << _mall->GetCash() << endl << endl;
 }
 
+/*
+	函式功能: 查詢歷史收據
+
+	參數: 無
+
+	回傳值: 無
+*/
 void MallUI::CheckPastOrders()
 {
-    return;
+    cout << "尚未開發完成，敬請期待" << endl << endl;
 }
 
-int MallUI::GetClothIndex()
+/*
+	函式功能: 取得衣服ID
+
+	參數: 無
+
+	回傳值: 衣服ID
+*/
+int MallUI::GetClothId()
 {
     string input;
     cout << "請輸入衣服ID, 離開請輸入-1: ";
@@ -406,6 +482,13 @@ int MallUI::GetClothIndex()
     return stoi(input);
 }
 
+/*
+	函式功能: 取得衣服件數
+
+	參數: 無
+
+	回傳值: 衣服件數
+*/
 int MallUI::GetClothCount()
 {
     string input;
@@ -413,19 +496,23 @@ int MallUI::GetClothCount()
     getline(cin, input);
     return stoi(input);
 }
+
 /*
 	函式功能: 選擇客人與商店
 
-	參數: customerName => 客人名稱, shopName => 商店名稱
+	參數: customerName => 選定的客人名稱, shopName => 選定的商店名稱
 
 	回傳值: 無
 */
 void MallUI::SelectCustomerAndShop(const string customerName, const string shopName) const
 {
+    //取得所有客人資料
     const vector<Customer*>* customers = _mall->GetCustomers();
+    //取得所有商店資料
     const vector<Shop*>* shops = _mall->GetShops();
-    int customerIndex, shopIndex;
+    size_t customerIndex, shopIndex;
 
+    //查詢customerIndex
     for (size_t i = 0; i < customers->size(); i++)
     {
         if ((*customers)[i]->GetName() == customerName)
@@ -435,6 +522,7 @@ void MallUI::SelectCustomerAndShop(const string customerName, const string shopN
         }
     }
 
+    //查詢shopIndex
     for (size_t i = 0; i < shops->size(); i++)
     {
         if ((*shops)[i]->GetName() == shopName)
@@ -450,9 +538,9 @@ void MallUI::SelectCustomerAndShop(const string customerName, const string shopN
 /*
 	函式功能: 判斷是否為數字
 
-	參數: 輸入資料 string
+	參數: 輸入資料
 
-	回傳值: true/false
+	回傳值: True/False
 */
 bool MallUI::IsNumber(string input)
 {
@@ -469,9 +557,9 @@ bool MallUI::IsNumber(string input)
 /*
 	函式功能: 判斷是否為正數
 
-	參數: 輸入資料 string
+	參數: 輸入資料
 
-	回傳值: true/false
+	回傳值: True/False
 */
 bool MallUI::IsPositive(string input)
 {

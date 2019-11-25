@@ -27,24 +27,25 @@ private:
     void ShopMenu(string& shopName, string& customerName);
     void ShowShopMenu(const string shopName, const string customerName) const;
 
+    //選擇客人與商店
     void SelectCustomerAndShop(const string customerName, const string shopName) const;
     //選擇商店
-    string GetCustomerName(int command) const;
+    string GetCustomerName(int index) const;
     //選擇商店
-    string GetShopName(int command) const;
-
+    string GetShopName(int index) const;
+    //建立新訂單
     void MakeNewOrder();
-
+    //購買衣服
     void AddClothesToOrder();
-
-    int GetClothIndex();
-
+    //取得衣服Id
+    int GetClothId();
+    //取得衣服件數
     int GetClothCount();
-
+    //訂單結帳
     void CheckOutOrder();
-
+    //查看剩餘點數
     void CheckLeftPoint();
-
+    //查看歷史收據
     void CheckPastOrders();
     //新增衣服
     void AddNewClothes();
