@@ -20,7 +20,7 @@ public:
 
     void AddOrderToCloth(int id);
 
-    void SelectCustomerAndShop(int customerIndex, int shopIndex);
+    void SelectCustomerAndShop(size_t customerIndex, size_t shopIndex);
 
     bool IsPointEnough() const;
 
@@ -53,8 +53,8 @@ private:
     //檢查是否為衣服資料
     bool IsClothData(fstream& file, streampos& lastReadPosition) const;
     //選定的商店編號
-    int _shopIndex;
-    int _customerIndex;
+    size_t _shopIndex;
+    size_t _customerIndex;
     //商店清單
     vector<Shop*> _shops;
     vector<Customer*> _customers;

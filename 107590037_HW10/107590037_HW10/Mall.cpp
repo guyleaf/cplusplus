@@ -54,7 +54,7 @@ void Mall::AddOrderToCloth(int id)
 
 	¦^¶Ç­È: µL
 */
-void Mall::SelectCustomerAndShop(int customerIndex, int shopIndex)
+void Mall::SelectCustomerAndShop(size_t customerIndex, size_t shopIndex)
 {
     _shopIndex = shopIndex;
     _customerIndex = customerIndex;

@@ -424,7 +424,7 @@ void MallUI::SelectCustomerAndShop(const string customerName, const string shopN
 {
     const vector<Customer*>* customers = _mall->GetCustomers();
     const vector<Shop*>* shops = _mall->GetShops();
-    int customerIndex, shopIndex;
+    size_t customerIndex, shopIndex;
 
     for (size_t i = 0; i < customers->size(); i++)
     {
