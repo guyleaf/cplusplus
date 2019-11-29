@@ -155,10 +155,10 @@ void MallUI::MallsMenu(string& shopName)
 {
     //暫存輸入資料
     string command;
-    const string MAX_COMMAND_SIZE = to_string(_numberOfShops);
+    const int MAX_COMMAND_SIZE = _numberOfShops;
     const string EXIT_COMMAND = to_string(_numberOfShops + 1);
     //選擇商店規則
-    regex rule("^[1-" + MAX_COMMAND_SIZE + "]$");
+    regex rule("^[1-" + to_string(MAX_COMMAND_SIZE) + "]$");
     ShowMallsMenu();
 
     while (true)
