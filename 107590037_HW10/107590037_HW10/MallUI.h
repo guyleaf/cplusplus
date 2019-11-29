@@ -36,13 +36,13 @@ private:
     //建立新訂單
     void MakeNewOrder();
     //購買衣服
-    void AddClothesToOrder();
+    void AddClothesToOrder(string shopName);
     //取得衣服Id
     int GetClothId();
     //取得衣服件數
     int GetClothCount();
     //訂單結帳
-    void CheckOutOrder();
+    void CheckOutOrder(string shopName);
     //查看剩餘點數
     void CheckLeftPoint();
     //查看歷史收據

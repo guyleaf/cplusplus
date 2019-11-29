@@ -155,10 +155,10 @@ void MallUI::MallsMenu(string& shopName)
 {
     //暫存輸入資料
     string command;
-    const string MAX_COMMAND_SIZE = to_string(_numberOfShops);
+    const int MAX_COMMAND_SIZE = _numberOfShops;
     const string EXIT_COMMAND = to_string(_numberOfShops + 1);
     //選擇商店規則
-    regex rule("^[1-" + MAX_COMMAND_SIZE + "]$");
+    regex rule("^[1-" + to_string(MAX_COMMAND_SIZE) + "]$");
     ShowMallsMenu();
 
     while (true)
@@ -229,9 +229,9 @@ void MallUI::ShopMenu(string& shopName, string& customerName)
             else if (command == "3") //功能三 建立新訂單
                 MakeNewOrder();
             else if (command == "4") //功能四 購買衣服
-                AddClothesToOrder();
+                AddClothesToOrder(shopName);
             else if (command == "5") //功能五 結束訂單
-                CheckOutOrder();
+                CheckOutOrder(shopName);
             else if (command == "6") //功能六 查看剩餘點數
                 CheckLeftPoint();
             else if (command == "7") //功能七 查看歷史收據
@@ -389,10 +389,10 @@ void MallUI::MakeNewOrder()
 
 	回傳值: 無
 */
-void MallUI::AddClothesToOrder()
+void MallUI::AddClothesToOrder(string shopName)
 {
     //訂單不存在，則提醒並跳出
-    if (_mall->GetCurrentOrder() == NULL)
+    if (_mall->GetCurrentOrder() == NULL or _mall->GetCurrentOrder()->GetShop()->GetName() != shopName)
     {
         cout << "請建立訂單，才能購買衣服!" << endl << endl;
         return;
@@ -423,10 +423,10 @@ void MallUI::AddClothesToOrder()
 
 	回傳值: 無
 */
-void MallUI::CheckOutOrder()
+void MallUI::CheckOutOrder(string shopName)
 {
     //訂單不存在，則提醒並跳出
-    if (_mall->GetCurrentOrder() == NULL)
+    if (_mall->GetCurrentOrder() == NULL or _mall->GetCurrentOrder()->GetShop()->GetName() != shopName)
     {
         cout << "請先建立新訂單，才能夠結束訂單 !" << endl << endl;
         return;
