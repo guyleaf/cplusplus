@@ -1,10 +1,24 @@
 #include "Subscriber.h"
 
+/*
+	ㄧΑ: Initialize
+
+	把计: 璹綷嘿
+
+	肚: 礚
+*/
 Subscriber::Subscriber(string name)
 {
     _name = name;
 }
 
+/*
+	ㄧΑ: Reset the channel list
+
+	把计: 礚
+
+	肚: 礚
+*/
 void Subscriber::Reset()
 {
     _numChannels = 0;
@@ -12,24 +26,53 @@ void Subscriber::Reset()
     _channelList = nullptr;
 }
 
+/*
+	ㄧΑ: Get subscriber's name
+
+	把计: 礚
+
+	肚: 璹綷嘿
+*/
 string Subscriber::GetName() const
 {
     return _name;
 }
 
+/*
+	ㄧΑ: Get subscriber's number of channel list
+
+	把计: 礚
+
+	肚: 繵笵计秖
+*/
 int Subscriber::GetNumberChannels() const
 {
     return _numChannels;
 }
 
+/*
+	ㄧΑ: Get subscriber's number of channels in subscriber's channel list
+
+	把计: 礚
+
+	肚: 繵笵睲虫
+*/
 const string* Subscriber::GetChannelList() const
 {
     return _channelList;
 }
 
+/*
+	ㄧΑ: operator = :copy the channel list to subscriber's channel list
+
+	把计: 繵笵睲虫
+
+	肚: 礚
+*/
 void Subscriber::operator=(const string* channelList)
 {
     _numChannels = (int)channelList->size();
+    //make another channel list
     _channelList = new string[_numChannels];
 
     for (int i = 0; i < _numChannels; i++)

@@ -11,7 +11,7 @@
 int main()
 {
     SubscriberUI ui;
-    ui.Start();
+    ui.Menu();
     system("PAUSE");
     return 0;
 }
