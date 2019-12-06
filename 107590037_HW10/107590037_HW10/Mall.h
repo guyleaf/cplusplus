@@ -1,7 +1,9 @@
 #ifndef MALL_H
 #define MALL_H
+
 #include "Shop.h"
 #include "Customer.h"
+
 #include <vector>
 #include <string>
 #include <fstream>

@@ -1,17 +1,25 @@
 #include <string>
 #include <iostream>
 using namespace std;
-class Exam
+class Test
 {
 public:
-    Exam() : s("") {};
-    Exam(int s) : s(to_string(s)) {};
-    Exam(string s) : s(s) {};
-    const Exam operator++(int flag)
+    Test(): s("")
     {
-        string t = s;
-        s += "+";
-        return t;
+        cout << "default constructor" << endl;
+    }
+    /*Test(string& s) : s(s)
+    {
+        cout << "copy constructor" << endl;
+    }*/
+    Test(string s) : s(s)
+    {
+        cout << "default constructor s" << endl;
+    }
+    Test do1(int t)
+    {
+        Test t2 = Test("");
+        return t2;
     }
 private:
     string s;
@@ -19,7 +27,9 @@ private:
 
 int main()
 {
-    Exam t(11);
-    
+    Test t;
+    t = t.do1(5);
+    Test t1(t);
+    system("PAUSE");
     return 0;
 }

@@ -1,6 +1,8 @@
 #ifndef MALL_UI_H
 #define MALL_UI_H
+
 #include "Mall.h"
+
 #include <vector>
 #include <string>
 
