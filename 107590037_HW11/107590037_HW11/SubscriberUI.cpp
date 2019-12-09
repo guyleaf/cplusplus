@@ -117,7 +117,8 @@ string* SubscriberUI::GetInputChannelList() const
 
     //convert input into number
     int numberOfChannels = stoi(input);
-    string* channelList = new string[numberOfChannels];
+    //preserve one array space, the pointer's length function cannot calculate correctly.
+    string* channelList = new string[numberOfChannels + 1];
 
     for (int i = 0; i < numberOfChannels; i++)
     {

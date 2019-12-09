@@ -1,5 +1,5 @@
 #include "Subscriber.h"
-
+#include <iostream>
 /*
 	¨ç¦¡¥\¯à: Initialize
 
@@ -10,6 +10,8 @@
 Subscriber::Subscriber(string name)
 {
     _name = name;
+    _numChannels = 0;
+    _channelList = nullptr;
 }
 
 /*
@@ -71,7 +73,13 @@ const string* Subscriber::GetChannelList() const
 */
 void Subscriber::operator=(const string* channelList)
 {
-    _numChannels = (int)channelList->size();
+    //count the number of channelList
+    size_t i = 0;
+
+    while (!channelList[i].empty())
+        i++;
+
+    _numChannels = (int)i;
     //make another channel list
     _channelList = new string[_numChannels];
 
