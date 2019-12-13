@@ -1,3 +1,10 @@
+/*
+	Author: 資工二 107590037 應耀德
+
+	程式功能 : 演示紀錄學生資料
+
+	作業編號 : HW12
+*/
 #include <iostream>
 #include "Student.h"
 #include "ScienceStudent.h"
