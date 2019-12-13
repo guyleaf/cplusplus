@@ -73,16 +73,17 @@ const string* Subscriber::GetChannelList() const
 */
 void Subscriber::operator=(const string* channelList)
 {
+    size_t counter = 0;
+
     //count the number of channelList
-    size_t i = 0;
+    while (!channelList[counter].empty())
+        counter++;
 
-    while (!channelList[i].empty())
-        i++;
-
-    _numChannels = (int)i;
+    _numChannels = (int)counter;
     //make another channel list
     _channelList = new string[_numChannels];
 
+    //copy channelList
     for (int i = 0; i < _numChannels; i++)
         _channelList[i] = channelList[i];
 }

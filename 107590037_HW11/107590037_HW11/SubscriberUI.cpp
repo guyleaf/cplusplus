@@ -42,11 +42,11 @@ void SubscriberUI::Menu()
     Subscriber user(username);
     //copy channelList to user
     user = channelList;
+    delete[] channelList;
+    channelList = nullptr;
     PrintInformation(user);
     ResetChannelList(user);
     PrintInformation(user);
-    delete[] channelList;
-    channelList = nullptr;
 }
 
 /*
@@ -115,7 +115,7 @@ string* SubscriberUI::GetInputChannelList() const
         cout << "Invalid Input" << endl;
     }
 
-    //convert input into number
+    //convert input into integer
     int numberOfChannels = stoi(input);
     //preserve one array space, the pointer's length function cannot calculate correctly.
     string* channelList = new string[numberOfChannels + 1];
