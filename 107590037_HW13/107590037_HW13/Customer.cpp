@@ -12,7 +12,7 @@ Customer::Customer(string name)
 {
     _name = name;
     _point = 2000;
-    _order = NULL;
+    _currentOrder = NULL;
 }
 
 /*
@@ -48,8 +48,8 @@ double Customer::GetCash() const
 */
 void Customer::MakeNewOrder(Shop* shop)
 {
-    delete _order;
-    _order = new Order(shop);
+    delete _currentOrder;
+    _currentOrder = new Order(shop);
 }
 
 /*
@@ -61,7 +61,7 @@ void Customer::MakeNewOrder(Shop* shop)
 */
 void Customer::AddClothToOrder(Cloth* cloth)
 {
-    _order->AddCloth(cloth);
+    _currentOrder->AddCloth(cloth);
 }
 
 /*
@@ -73,7 +73,7 @@ void Customer::AddClothToOrder(Cloth* cloth)
 */
 double Customer::GetOrderTotalPrice() const
 {
-    return _order->GetTotalPrice();
+    return _currentOrder->GetTotalPrice();
 }
 
 /*
@@ -85,7 +85,7 @@ double Customer::GetOrderTotalPrice() const
 */
 bool Customer::IsPointEnough() const
 {
-    return (_point - _order->GetTotalPrice() >= 0) ? true : false;
+    return (_point - _currentOrder->GetTotalPrice() >= 0) ? true : false;
 }
 
 /*
@@ -97,9 +97,9 @@ bool Customer::IsPointEnough() const
 */
 void Customer::ReducePointFromOrder()
 {
-    _point -= _order->GetTotalPrice();
-    delete _order;
-    _order = NULL;
+    _point -= _currentOrder->GetTotalPrice();
+    _pastOrder.push_back(_currentOrder);
+    _currentOrder = NULL;
 }
 
 /*
@@ -111,8 +111,8 @@ void Customer::ReducePointFromOrder()
 */
 void Customer::CancelOrder()
 {
-    delete _order;
-    _order = NULL;
+    delete _currentOrder;
+    _currentOrder = NULL;
 }
 
 /*
@@ -124,11 +124,33 @@ void Customer::CancelOrder()
 */
 const Order* Customer::GetCurrentOrder() const
 {
-    return _order;
+    return _currentOrder;
 }
 
+/*
+	函式功能: 取得歷史訂單記錄
+
+	參數: 訂單所屬的Shop
+
+	回傳值: 歷史訂單資料
+*/
+vector<Order*>* Customer::GetPurchasedHistoryFrom(Shop* shop) const
+{
+    vector<Order*>* order = new vector<Order*>;
+
+    for (size_t i = 0; i < _pastOrder.size(); i++)
+    {
+        if (_pastOrder[i]->GetShop()->GetName() == shop->GetName())
+            order->push_back(_pastOrder[i]);
+    }
+
+    return order;
+}
 
 Customer::~Customer()
 {
-    delete _order;
+    delete _currentOrder;
+
+    for (size_t i = 0; i < _pastOrder.size(); i++)
+        delete _pastOrder[i];
 }

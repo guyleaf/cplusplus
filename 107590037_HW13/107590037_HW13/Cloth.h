@@ -16,9 +16,10 @@ public:
     //取得衣服資訊
     string GetInformation() const;
     //取得衣服價格
-    double GetPrice() const;
+    virtual double GetPrice() const;
     //取得衣服編號
     int GetId() const;
+    virtual ~Cloth();
 protected:
     //衣服名稱
     string _name;

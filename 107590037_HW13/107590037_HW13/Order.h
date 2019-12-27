@@ -15,6 +15,8 @@ public:
     void AddCloth(Cloth* clothToAdd);
     //取得訂單總金額
     double GetTotalPrice() const;
+    //取得已選定的衣服清單
+    const vector<Cloth*>* GetClothes() const;
 private:
     //已選定的衣服清單
     vector<Cloth*> _orderedClothes;

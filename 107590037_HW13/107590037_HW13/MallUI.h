@@ -48,7 +48,9 @@ private:
     //查看剩餘點數
     void CheckLeftPoint();
     //查看歷史收據
-    void CheckPastOrders();
+    void CheckPastOrders(string customerName);
+    //統計訂單衣服資料
+    vector<pair<Cloth*, int>> CountClothesOfOrders(const vector<Order*>* order);
     //新增衣服
     void AddNewClothes();
     //取得衣服名稱

@@ -53,3 +53,8 @@ double Order::GetTotalPrice() const
 
     return totalPrice;
 }
+
+const vector<Cloth*>* Order::GetClothes() const
+{
+    return &_orderedClothes;
+}

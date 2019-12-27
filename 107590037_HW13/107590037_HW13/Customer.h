@@ -29,13 +29,17 @@ public:
     void CancelOrder();
     //取得目前訂單
     const Order* GetCurrentOrder() const;
+    //取得歷史訂單紀錄
+    vector<Order*>* GetPurchasedHistoryFrom(Shop* shop) const;
     ~Customer();
 private:
     //客人名字
     string _name;
     //擁有的點數
     double _point;
-    //訂單
-    Order* _order;
+    //目前訂單
+    Order* _currentOrder;
+    //歷史訂單紀錄
+    vector<Order*> _pastOrder;
 };
 #endif

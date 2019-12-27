@@ -39,24 +39,32 @@ public:
     const vector<Customer*>* GetCustomers() const;
     //取得目前客人訂單
     const Order* GetCurrentOrder() const;
+    //取得客人歷史訂單記錄
+    const vector<Order*>* GetPurchasedHistoryFrom() const;
     ~Mall();
 private:
     //載入外部商店資料
     void LoadShopsData(string fileName);
     //載入商店的衣服資料
     void LoadClothesData(fstream& file, Shop* shop);
+    void LoadSuiteData(fstream& file, Shop* shop, int idOffset);
     //讀取商店標頭
     string ReadShopHead(fstream& file) const;
     //取得商店名稱
     string GetShopName(const string& shopHead) const;
+    //讀取衣服index
+    int ReadClothIndex(fstream& file) const;
     //讀取衣服名稱
     string ReadClothName(fstream& file) const;
     //讀取衣服描述
     string ReadClothDescription(fstream& file) const;
     //讀取衣服價格
     double ReadClothPrice(fstream& file) const;
+
     //檢查是否為衣服資料
     bool IsClothData(fstream& file, streampos& lastReadPosition) const;
+    //是否為套裝
+    bool IsSuiteData(fstream& file, streampos& lastReadPosition) const;
     //選定的商店編號
     size_t _shopIndex;
     //選定的客人編號

@@ -39,6 +39,18 @@ void Shop::CreateNewCloth(string name, string description, double price)
 }
 
 /*
+	函式功能: 建立套裝資料
+
+	參數: name: 套裝名字, description: 商品描述
+
+	回傳值: 無
+*/
+void Shop::CreateNewSuite(string name, string description)
+{
+    //加到衣服資料清單
+    _clothes.push_back(new Suite(name, description, ++_numberOfClothes));
+}
+/*
 	函式功能: 取得所有衣服資料
 
 	參數: 無

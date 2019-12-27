@@ -62,3 +62,7 @@ int Cloth::GetId() const
 {
     return _id;
 }
+
+Cloth::~Cloth()
+{
+}

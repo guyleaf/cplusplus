@@ -1,6 +1,7 @@
 #include "Mall.h"
 
 #include <regex>
+#include <iostream>
 using namespace std;
 
 /*
@@ -139,6 +140,11 @@ const Order* Mall::GetCurrentOrder() const
     return customer->GetCurrentOrder();
 }
 
+const vector<Order*>* Mall::GetPurchasedHistoryFrom() const
+{
+    return _customers[_customerIndex]->GetPurchasedHistoryFrom(_shops[_shopIndex]);
+}
+
 /*
 	函式功能: 取得所有商店資料
 
@@ -228,20 +234,52 @@ void Mall::LoadClothesData(fstream& file, Shop* shop)
 {
     //記錄最後讀檔位置
     streampos lastReadPosition = file.tellg();
+    //衣服Index
+    int index;
     //衣服名稱, 衣服描述
     string name, description;
     //衣服價格
     double price;
+    //紀錄第一筆衣服資料的Index為id的offset
+    int idOffset = -1;
 
     while (IsClothData(file, lastReadPosition))
     {
+        index = ReadClothIndex(file);
+
+        if (idOffset == -1)
+            idOffset = index;
+
         name = ReadClothName(file);
         description = ReadClothDescription(file);
-        price = ReadClothPrice(file);
+
+        if (IsSuiteData(file, lastReadPosition))
+        {
+            shop->CreateNewSuite(name, description);
+            LoadSuiteData(file, shop, idOffset);
+        }
+        else
+        {
+            price = ReadClothPrice(file);
+            shop->CreateNewCloth(name, description, price);
+        }
+
         //記錄最後讀檔位置
         lastReadPosition = file.tellg();
-        shop->CreateNewCloth(name, description, price);
     }
+}
+
+void Mall::LoadSuiteData(fstream& file, Shop* shop, int idOffset)
+{
+    do
+    {
+        int clothIndex;
+        file >> clothIndex;
+        Suite* suite = (Suite*)(*(*shop->GetClothes()).rbegin());
+        Cloth* cloth = shop->FindCloth(clothIndex - idOffset + 1);
+        suite->Add(cloth);
+    }
+    while (!file.eof() && file.get() != '\n');
 }
 
 /*
@@ -270,6 +308,15 @@ string Mall::GetShopName(const string& shopHead) const
     string shopName;
     shopName = shopHead.substr(5, shopHead.size() - 6);
     return shopName;
+}
+
+int Mall::ReadClothIndex(fstream& file) const
+{
+    string index;
+    getline(file, index, ',');
+    //忽略空格
+    file.ignore(1);
+    return stoi(index);
 }
 
 /*
@@ -337,6 +384,27 @@ bool Mall::IsClothData(fstream& file, streampos& lastReadPosition) const
     //檢查是否為衣服資料
     if (regex_match(data, rule))
         return true;
+
+    return false;
+}
+
+bool Mall::IsSuiteData(fstream& file, streampos& lastReadPosition) const
+{
+    string type;
+    //Suite資料規則
+    regex rule("^Suite.+$");
+    //記錄最後讀檔位置
+    lastReadPosition = file.tellg();
+    getline(file, type, '\n');
+    //rollback
+    file.seekg(lastReadPosition);
+
+    if (regex_match(type, rule))
+    {
+        //移動至Suite的資料位置
+        file.seekg(7, ios::cur);
+        return true;
+    }
 
     return false;
 }

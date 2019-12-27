@@ -7,6 +7,7 @@
 */
 #include "Mall.h"
 #include "MallUI.h"
+
 int main()
 {
     Mall mall;
