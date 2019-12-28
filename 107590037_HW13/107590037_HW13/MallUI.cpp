@@ -457,7 +457,7 @@ void MallUI::CheckLeftPoint()
 }
 
 /*
-	函式功能: 查詢歷史收據
+	函式功能: 查詢歷史購買紀錄
 
 	參數: 無
 
@@ -466,35 +466,40 @@ void MallUI::CheckLeftPoint()
 void MallUI::CheckPastOrders(string customerName)
 {
     const vector<Order*>* orders = _mall->GetPurchasedHistoryFrom();
-    vector<pair<Cloth*, int>> countedClothes;
+    cout << customerName << "的歷史購買紀錄:" << endl;
+    cout << left << setw(31) << "名稱" << left << setw(8) << "數量" << left << setw(8) << "單價" << left << setw(8) << "總價" << endl;
 
-    if (orders->size() != 0)
-        countedClothes = CountClothesOfOrders(orders);
+    for (size_t i = 0; i < orders->size(); i++)
+    {
+        //統計好的購買商品種類
+        vector<pair<Cloth*, int>> countedClothes = CountClothesOfOrders((*orders)[i]);
+
+        for (size_t j = 0; j < countedClothes.size(); j++)
+        {
+            //該商品購買個數不為零則輸出
+            if (countedClothes[j].second != 0)
+            {
+                cout << left << setw(31) << countedClothes[j].first->GetName() + " ";
+                cout << left << setw(8) << countedClothes[j].second;
+                cout << left << setw(8) << countedClothes[j].first->GetPrice();
+                cout << left << setw(8) << countedClothes[j].first->GetPrice() * countedClothes[j].second << endl;
+            }
+        }
+
+        cout << right << setw(47) << "總金額: " << left << setw(8) << (*orders)[i]->GetTotalPrice() << endl;
+    }
 
     delete orders;
-    cout << customerName << "的歷史購買紀錄:" << endl;
-    cout << left << setw(8) << "名稱" << left << setw(8) << "數量" << left << setw(8) << "單價" << left << setw(8) << "總價" << endl;
-
-    for (size_t i = 0; i < countedClothes.size(); i++)
-    {
-        if (countedClothes[i].second != 0)
-        {
-            cout << left << setw(8) << countedClothes[i].first->GetName();
-            cout << left << setw(8) << countedClothes[i].second;
-            cout << left << setw(8) << countedClothes[i].first->GetPrice();
-            cout << left << setw(8) << countedClothes[i].first->GetPrice() * countedClothes[i].second << endl;
-        }
-    }
 }
 
 /*
 	函式功能: 統計訂單衣服資料
 
-	參數: 多筆訂單
+	參數: 一筆訂單
 
 	回傳值: 已統計的衣服種類
 */
-vector<pair<Cloth*, int>> MallUI::CountClothesOfOrders(const vector<Order*>* orders)
+vector<pair<Cloth*, int>> MallUI::CountClothesOfOrders(const Order* order)
 {
     //衣服種類
     const vector<Cloth*>* clothesData = _mall->GetClothes();
@@ -505,20 +510,16 @@ vector<pair<Cloth*, int>> MallUI::CountClothesOfOrders(const vector<Order*>* ord
     for (size_t i = 0; i < clothesData->size(); i++)
         countedClothes.push_back(make_pair((*clothesData)[i], 0));
 
-    //統計每一筆訂單的衣服資料
-    for (size_t i = 0; i < orders->size(); i++)
-    {
-        //該筆訂單的衣服資料
-        const vector<Cloth*>* clothes = (*orders)[i]->GetClothes();
+    //該筆訂單的衣服資料
+    const vector<Cloth*>* clothes = order->GetClothes();
 
-        //統計
-        for (size_t j = 0; j < clothes->size(); j++)
+    //統計
+    for (size_t j = 0; j < clothes->size(); j++)
+    {
+        for (size_t k = 0; k < countedClothes.size(); k++)
         {
-            for (size_t k = 0; k < countedClothes.size(); k++)
-            {
-                if (countedClothes[k].first->GetName() == (*clothes)[j]->GetName())
-                    countedClothes[k].second++;
-            }
+            if (countedClothes[k].first->GetName() == (*clothes)[j]->GetName())
+                countedClothes[k].second++;
         }
     }
 

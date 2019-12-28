@@ -19,8 +19,8 @@ public:
     string GetName() const;
     //建立衣服資料
     void CreateNewCloth(string name, string description, double price);
-    //建立套裝資料
-    void CreateNewSuite(string name, string description);
+    //加入衣服至資料清單
+    void AddCloth(Cloth* cloth);
     //取得店家所有衣服資料
     const vector<Cloth*>* GetClothes() const;
     //尋找衣服

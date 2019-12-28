@@ -240,13 +240,14 @@ void Mall::LoadClothesData(fstream& file, Shop* shop)
     string name, description;
     //衣服價格
     double price;
-    //紀錄第一筆衣服資料的Index為id的offset
+    //檔案index的offset值
     int idOffset = -1;
 
     while (IsClothData(file, lastReadPosition))
     {
         index = ReadClothIndex(file);
 
+        //紀錄第一筆衣服資料的index為id的offset
         if (idOffset == -1)
             idOffset = index;
 
@@ -255,13 +256,13 @@ void Mall::LoadClothesData(fstream& file, Shop* shop)
 
         if (IsSuiteData(file, lastReadPosition))
         {
-            shop->CreateNewSuite(name, description);
+            shop->AddCloth(new Suite(name, description, index - idOffset + 1));
             LoadSuiteData(file, shop, idOffset);
         }
         else
         {
             price = ReadClothPrice(file);
-            shop->CreateNewCloth(name, description, price);
+            shop->AddCloth(new Cloth(name, description, price, index - idOffset + 1));
         }
 
         //記錄最後讀檔位置
@@ -269,13 +270,21 @@ void Mall::LoadClothesData(fstream& file, Shop* shop)
     }
 }
 
+/*
+	函式功能: 載入套裝資料
+
+	參數: file => 檔案資料流, shop => 商店物件, idOffset => index的Offset值
+
+	回傳值: 無
+*/
 void Mall::LoadSuiteData(fstream& file, Shop* shop, int idOffset)
 {
+    Suite* suite = (Suite*)(*(*shop->GetClothes()).rbegin());
+
     do
     {
         int clothIndex;
         file >> clothIndex;
-        Suite* suite = (Suite*)(*(*shop->GetClothes()).rbegin());
         Cloth* cloth = shop->FindCloth(clothIndex - idOffset + 1);
         suite->Add(cloth);
     }
@@ -310,6 +319,13 @@ string Mall::GetShopName(const string& shopHead) const
     return shopName;
 }
 
+/*
+	函式功能: 讀取衣服index
+
+	參數: 檔案資料流
+
+	回傳值: 索引值
+*/
 int Mall::ReadClothIndex(fstream& file) const
 {
     string index;
@@ -388,6 +404,13 @@ bool Mall::IsClothData(fstream& file, streampos& lastReadPosition) const
     return false;
 }
 
+/*
+	函式功能: 檢查是否為套裝資料
+
+	參數: file => 檔案資料流, lastReadPosition => 最後讀取檔案的位置
+
+	回傳值: 商店名稱
+*/
 bool Mall::IsSuiteData(fstream& file, streampos& lastReadPosition) const
 {
     string type;

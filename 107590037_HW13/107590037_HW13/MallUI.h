@@ -47,10 +47,10 @@ private:
     void CheckOutOrder(string shopName);
     //查看剩餘點數
     void CheckLeftPoint();
-    //查看歷史收據
+    //查詢歷史購買紀錄
     void CheckPastOrders(string customerName);
     //統計訂單衣服資料
-    vector<pair<Cloth*, int>> CountClothesOfOrders(const vector<Order*>* order);
+    vector<pair<Cloth*, int>> CountClothesOfOrders(const Order* order);
     //新增衣服
     void AddNewClothes();
     //取得衣服名稱
